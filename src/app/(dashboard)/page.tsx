@@ -1,4 +1,3 @@
-import { Header } from '@/components/layout/Header'
 import { formatCurrency, formatNumber } from '@/lib/utils/formatters'
 
 // Datos mock — se reemplazarán con datos de Supabase
@@ -19,56 +18,50 @@ const MOCK_CLIENTS = [
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-      <Header title="Dashboard" subtitle="Vista general de la agencia" />
-
       {/* KPIs */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         {MOCK_KPIs.map((kpi) => (
           <div
             key={kpi.label}
-            className="rounded-xl border border-white/10 bg-surface-50 p-5"
+            className="rounded-xl border border-white/5 bg-surface-200 p-4 lg:p-5 hover:border-white/10 transition-colors"
           >
-            <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+            <p className="font-heading text-[10px] font-semibold uppercase tracking-widest text-white/40">
               {kpi.label}
             </p>
-            <p className="mt-2 text-2xl font-bold text-white">{kpi.value}</p>
-            <p
-              className={`mt-1 text-xs font-medium ${
-                kpi.change >= 0 ? 'text-emerald-400' : 'text-red-400'
-              }`}
-            >
-              {kpi.change >= 0 ? '+' : ''}{kpi.change}% vs mes anterior
+            <p className="font-heading mt-2 text-xl lg:text-2xl font-bold text-white">{kpi.value}</p>
+            <p className={`font-body mt-1 text-xs font-medium ${kpi.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              {kpi.change >= 0 ? '▲' : '▼'} {Math.abs(kpi.change)}% vs mes anterior
             </p>
           </div>
         ))}
       </div>
 
       {/* Clientes recientes */}
-      <div className="rounded-xl border border-white/10 bg-surface-50">
-        <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-          <h2 className="text-sm font-semibold text-white">Clientes activos</h2>
-          <a href="/clients" className="text-xs text-brand-400 hover:text-brand-300">
+      <div className="rounded-xl border border-white/5 bg-surface-200">
+        <div className="flex items-center justify-between border-b border-white/5 px-4 lg:px-6 py-4">
+          <h2 className="font-heading text-sm font-bold text-white uppercase tracking-wide">
+            Clientes activos
+          </h2>
+          <a href="/clients" className="font-body text-xs text-brand-500 hover:text-brand-400 transition-colors">
             Ver todos →
           </a>
         </div>
         <div className="divide-y divide-white/5">
           {MOCK_CLIENTS.map((client) => (
-            <div key={client.id} className="flex items-center justify-between px-6 py-3.5">
+            <div key={client.id} className="flex items-center justify-between px-4 lg:px-6 py-3.5 hover:bg-white/[0.02] transition-colors">
               <div className="flex items-center gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-900 text-xs font-bold text-brand-300">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-surface-400 text-xs font-bold text-brand-400 font-heading border border-white/10 flex-shrink-0">
                   {client.name.charAt(0)}
                 </div>
-                <span className="text-sm font-medium text-gray-200">{client.name}</span>
+                <span className="font-body text-sm font-medium text-white/80">{client.name}</span>
               </div>
-              <div className="flex items-center gap-4">
-                <span className="text-xs text-gray-500">{client.reports} reportes</span>
-                <span
-                  className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
-                    client.status === 'active'
-                      ? 'bg-emerald-500/10 text-emerald-400'
-                      : 'bg-gray-500/10 text-gray-500'
-                  }`}
-                >
+              <div className="flex items-center gap-2 lg:gap-4">
+                <span className="font-body text-xs text-white/30 hidden sm:inline">{client.reports} reportes</span>
+                <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-widest font-heading ${
+                  client.status === 'active'
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                    : 'bg-white/5 text-white/30 border border-white/10'
+                }`}>
                   {client.status === 'active' ? 'Activo' : 'Inactivo'}
                 </span>
               </div>

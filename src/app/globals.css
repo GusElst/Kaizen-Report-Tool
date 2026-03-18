@@ -8,7 +8,13 @@
   }
 
   body {
-    @apply bg-surface text-gray-100 antialiased;
+    @apply bg-surface text-white/80 antialiased;
+    font-family: var(--font-roboto), system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-montserrat), system-ui, sans-serif;
+    @apply text-white font-semibold;
   }
 
   * {
@@ -19,7 +25,7 @@
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: theme('colors.surface.300') transparent;
+    scrollbar-color: #27333d transparent;
   }
 
   .scrollbar-thin::-webkit-scrollbar {
@@ -31,6 +37,7 @@
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    @apply bg-surface-300 rounded-full;
+    background: #27333d;
+    border-radius: 9999px;
   }
 }

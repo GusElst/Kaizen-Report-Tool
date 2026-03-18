@@ -8,10 +8,8 @@ import {
   FileText,
   Layout,
   Settings,
-  TrendingUp,
   ChevronRight,
 } from 'lucide-react'
-import { APP_NAME, APP_TAGLINE } from '@/lib/utils/constants'
 
 const NAV_ITEMS = [
   { href: '/',           label: 'Dashboard',     icon: LayoutDashboard },
@@ -21,6 +19,26 @@ const NAV_ITEMS = [
   { href: '/settings',   label: 'Configuración',  icon: Settings },
 ]
 
+// Logo montaña geométrica basado en el brand Kaizen
+const KaizenLogoIcon = () => (
+  <svg width="32" height="32" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    {/* Montaña izquierda */}
+    <polygon points="5,72 32,20 58,72" fill="#27333d" />
+    {/* Montaña derecha */}
+    <polygon points="42,72 68,28 95,72" fill="#27333d" />
+    {/* Acento naranja — triángulo pico central */}
+    <polygon points="50,10 62,35 38,35" fill="#f26c09" />
+    {/* Nodos de conexión */}
+    <circle cx="50" cy="10" r="2.5" fill="white" opacity="0.8" />
+    <circle cx="32" cy="20" r="2"   fill="white" opacity="0.6" />
+    <circle cx="68" cy="28" r="2"   fill="white" opacity="0.6" />
+    {/* Líneas de red */}
+    <line x1="50" y1="10" x2="32" y2="20" stroke="white" strokeWidth="1" opacity="0.4" />
+    <line x1="50" y1="10" x2="68" y2="28" stroke="white" strokeWidth="1" opacity="0.4" />
+    <line x1="32" y1="20" x2="68" y2="28" stroke="white" strokeWidth="1" opacity="0.3" />
+  </svg>
+)
+
 export const Sidebar = () => {
   const pathname = usePathname()
 
@@ -28,22 +46,26 @@ export const Sidebar = () => {
     href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r border-white/10 bg-surface-50">
+    <aside className="flex h-screen w-64 flex-col bg-surface-300 border-r border-white/5">
+
       {/* Branding */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand-600">
-          <TrendingUp className="h-5 w-5 text-white" strokeWidth={2.5} />
-        </div>
+      <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
+        <KaizenLogoIcon />
         <div>
-          <p className="text-sm font-bold leading-tight text-white">{APP_NAME}</p>
-          <p className="text-[10px] font-medium uppercase tracking-widest text-brand-400">
-            {APP_TAGLINE}
+          <p className="font-heading text-sm font-bold leading-tight text-white tracking-wide uppercase">
+            Kaizen
+          </p>
+          <p className="font-body text-[10px] text-brand-500 font-medium tracking-widest uppercase">
+            Report Tool
           </p>
         </div>
       </div>
 
       {/* Navegación */}
-      <nav className="flex-1 overflow-y-auto scrollbar-thin px-3 py-4">
+      <nav className="flex-1 overflow-y-auto px-3 py-4">
+        <p className="px-3 mb-2 text-[10px] font-semibold uppercase tracking-widest text-white/30 font-heading">
+          Menú
+        </p>
         <ul className="space-y-0.5">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
             const active = isActive(href)
@@ -51,18 +73,20 @@ export const Sidebar = () => {
               <li key={href}>
                 <Link
                   href={href}
-                  className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+                  className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all ${
                     active
-                      ? 'bg-brand-600/20 text-brand-400'
-                      : 'text-gray-400 hover:bg-white/5 hover:text-gray-100'
+                      ? 'bg-brand-500/15 text-brand-400 border border-brand-500/20'
+                      : 'text-white/50 hover:bg-white/5 hover:text-white/80 border border-transparent'
                   }`}
                 >
                   <Icon
-                    className={`h-4 w-4 flex-shrink-0 ${active ? 'text-brand-400' : 'text-gray-500 group-hover:text-gray-300'}`}
+                    className={`h-4 w-4 flex-shrink-0 ${
+                      active ? 'text-brand-500' : 'text-white/40 group-hover:text-white/60'
+                    }`}
                   />
-                  {label}
+                  <span className="font-body font-medium">{label}</span>
                   {active && (
-                    <ChevronRight className="ml-auto h-3 w-3 text-brand-500" />
+                    <ChevronRight className="ml-auto h-3 w-3 text-brand-500/70" />
                   )}
                 </Link>
               </li>
@@ -71,15 +95,15 @@ export const Sidebar = () => {
         </ul>
       </nav>
 
-      {/* Footer — agencia */}
+      {/* Footer agencia */}
       <div className="border-t border-white/10 px-4 py-4">
-        <div className="flex items-center gap-3 rounded-lg px-2 py-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-700 text-xs font-bold text-white">
+        <div className="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-white/5 transition-colors cursor-pointer">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-500 text-xs font-bold text-white font-heading">
             K
           </div>
           <div className="min-w-0">
-            <p className="truncate text-xs font-semibold text-gray-200">Kaizen Agency</p>
-            <p className="text-[10px] text-gray-500">Plan Pro</p>
+            <p className="truncate text-xs font-semibold text-white/80 font-heading">Kaizen Agency</p>
+            <p className="text-[10px] text-white/30 font-body">Evolución Digital Constante</p>
           </div>
         </div>
       </div>

@@ -10,32 +10,40 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Paleta Kaizen
+        // Paleta de marca Kaizen
         brand: {
-          50:  '#f0f4ff',
-          100: '#e0e9ff',
-          200: '#c7d7fe',
-          300: '#a5bcfd',
-          400: '#8198fb',
-          500: '#6272f6',
-          600: '#4f52ea',
-          700: '#4241cf',
-          800: '#3636a7',
-          900: '#313284',
-          950: '#1e1d4e',
+          DEFAULT: '#f26c09',
+          50:  '#fff4ed',
+          100: '#ffe8d5',
+          200: '#fecba8',
+          300: '#fda971',
+          400: '#fb8038',
+          500: '#f26c09',
+          600: '#e35a00',
+          700: '#bc4802',
+          800: '#963a08',
+          900: '#79310b',
+          950: '#431705',
         },
-        // Grises para dark theme
+        // Azul slate oscuro — color principal Kaizen
+        slate: {
+          brand: '#27333d',
+        },
+        // Fondos dark theme
         surface: {
-          DEFAULT: '#0f0f14',
-          50:  '#1a1a24',
-          100: '#22222e',
-          200: '#2d2d3d',
-          300: '#3a3a4d',
-          400: '#4a4a60',
+          DEFAULT: '#0d1318',
+          50:  '#111920',
+          100: '#161f27',
+          200: '#1c262f',
+          300: '#27333d',  // brand slate
+          400: '#364450',
+          500: '#4a5d6a',
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-montserrat)', 'system-ui', 'sans-serif'],
+        body:    ['var(--font-roboto)', 'system-ui', 'sans-serif'],
+        sans:    ['var(--font-roboto)', 'system-ui', 'sans-serif'],
       },
     },
   },
