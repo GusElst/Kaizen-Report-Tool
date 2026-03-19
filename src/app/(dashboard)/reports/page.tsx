@@ -15,7 +15,7 @@ export default function ReportsPage() {
   const [deleteLoading, setDeleteLoading] = useState(false)
 
   const filtered = reports.filter((r) =>
-    r.name.toLowerCase().includes(search.toLowerCase()) ||
+    r.title.toLowerCase().includes(search.toLowerCase()) ||
     (r.clients?.name ?? '').toLowerCase().includes(search.toLowerCase())
   )
 
@@ -125,7 +125,7 @@ export default function ReportsPage() {
             <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-surface-200 p-6 shadow-2xl">
               <h3 className="font-heading text-base font-bold text-white mb-2">¿Eliminar reporte?</h3>
               <p className="font-body text-sm text-white/50 mb-6">
-                Vas a eliminar <span className="text-white font-medium">{deletingReport.name}</span>. Esta acción no se puede deshacer.
+                Vas a eliminar <span className="text-white font-medium">{deletingReport.title}</span>. Esta acción no se puede deshacer.
               </p>
               <div className="flex gap-3">
                 <button onClick={() => setDeletingReport(null)}

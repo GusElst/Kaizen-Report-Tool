@@ -11,9 +11,9 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json()
-  const { name, client_id, date_from, date_to, status } = body
+  const { title, client_id, date_from, date_to, status } = body
 
-  if (!name || !client_id || !date_from || !date_to) {
+  if (!title || !client_id || !date_from || !date_to) {
     return NextResponse.json({ error: 'Faltan campos requeridos' }, { status: 400 })
   }
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     .insert({
       agency_id: userProfile.agency_id,
       client_id,
-      name,
+      title,
       date_from,
       date_to,
       status: status ?? 'draft',

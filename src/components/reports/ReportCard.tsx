@@ -27,6 +27,7 @@ export const ReportCard = ({ report, onEdit, onDelete }: ReportCardProps) => {
   const [menuOpen, setMenuOpen] = useState(false)
   const status = STATUS_CONFIG[report.status as ReportStatus] ?? STATUS_CONFIG.draft
   const clientName = report.clients?.name ?? '—'
+  const reportTitle = report.title
 
   return (
     <div className="group relative rounded-xl border border-white/5 bg-surface-200 p-5 hover:border-white/10 transition-all duration-200">
@@ -37,7 +38,7 @@ export const ReportCard = ({ report, onEdit, onDelete }: ReportCardProps) => {
             <FileText className="h-5 w-5 text-brand-500" />
           </div>
           <div className="min-w-0">
-            <h3 className="font-heading text-sm font-bold text-white truncate">{report.name}</h3>
+            <h3 className="font-heading text-sm font-bold text-white truncate">{reportTitle}</h3>
             <p className="font-body text-xs text-white/40 truncate">{clientName}</p>
           </div>
         </div>
