@@ -27,7 +27,7 @@ export const useReports = (clientId?: string) => {
 
     const { data, error } = await query
     if (error) setError(error.message)
-    else setReports((data as Report[]) ?? [])
+    else setReports((data as unknown as Report[]) ?? [])
     setLoading(false)
   }, [clientId])
 
@@ -55,7 +55,7 @@ export const useReports = (clientId?: string) => {
       .single()
 
     if (error) return { error: error.message }
-    setReports((prev) => prev.map((r) => (r.id === id ? (data as Report) : r)))
+    setReports((prev) => prev.map((r) => (r.id === id ? (data as unknown as Report) : r)))
     return { data }
   }
 
