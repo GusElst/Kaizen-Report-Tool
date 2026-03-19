@@ -1,5 +1,4 @@
-// Tipos generados del schema de Supabase
-// Actualizar con: supabase gen types typescript --project-id flqwoynwdbmbkyyslxob
+// Tipos compatibles con @supabase/supabase-js v2
 
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
@@ -28,8 +27,34 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['agencies']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['agencies']['Insert']>
+        Insert: {
+          id?: string
+          name: string
+          slug: string
+          logo_url?: string | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          contact_email?: string | null
+          website?: string | null
+          timezone?: string
+          default_currency?: CurrencyType
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          name?: string
+          slug?: string
+          logo_url?: string | null
+          primary_color?: string | null
+          secondary_color?: string | null
+          contact_email?: string | null
+          website?: string | null
+          timezone?: string
+          default_currency?: CurrencyType
+          updated_at?: string
+        }
+        Relationships: []
       }
       users: {
         Row: {
@@ -43,8 +68,27 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['users']['Row'], 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['users']['Insert']>
+        Insert: {
+          id: string
+          agency_id: string
+          full_name: string
+          email: string
+          avatar_url?: string | null
+          role?: 'owner' | 'admin' | 'member' | 'viewer'
+          is_active?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          agency_id?: string
+          full_name?: string
+          email?: string
+          avatar_url?: string | null
+          role?: 'owner' | 'admin' | 'member' | 'viewer'
+          is_active?: boolean
+          updated_at?: string
+        }
+        Relationships: []
       }
       clients: {
         Row: {
@@ -64,8 +108,38 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['clients']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['clients']['Insert']>
+        Insert: {
+          id?: string
+          agency_id: string
+          name: string
+          slug: string
+          industry?: string | null
+          logo_url?: string | null
+          brand_color?: string | null
+          contact_name?: string | null
+          contact_email?: string | null
+          website?: string | null
+          notes?: string | null
+          currency?: CurrencyType
+          status?: ClientStatus
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          name?: string
+          slug?: string
+          industry?: string | null
+          logo_url?: string | null
+          brand_color?: string | null
+          contact_name?: string | null
+          contact_email?: string | null
+          website?: string | null
+          notes?: string | null
+          currency?: CurrencyType
+          status?: ClientStatus
+          updated_at?: string
+        }
+        Relationships: []
       }
       data_sources: {
         Row: {
@@ -83,8 +157,32 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['data_sources']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['data_sources']['Insert']>
+        Insert: {
+          id?: string
+          client_id: string
+          agency_id: string
+          source_type: DataSourceType
+          display_name: string
+          credentials?: Json
+          config?: Json
+          is_active?: boolean
+          last_sync_at?: string | null
+          last_sync_status?: string | null
+          last_sync_error?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          display_name?: string
+          credentials?: Json
+          config?: Json
+          is_active?: boolean
+          last_sync_at?: string | null
+          last_sync_status?: string | null
+          last_sync_error?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       report_templates: {
         Row: {
@@ -100,8 +198,29 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['report_templates']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['report_templates']['Insert']>
+        Insert: {
+          id?: string
+          agency_id: string
+          name: string
+          description?: string | null
+          category?: string
+          default_widgets?: Json
+          layout_config?: Json
+          is_shared?: boolean
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          name?: string
+          description?: string | null
+          category?: string
+          default_widgets?: Json
+          layout_config?: Json
+          is_shared?: boolean
+          updated_at?: string
+        }
+        Relationships: []
       }
       reports: {
         Row: {
@@ -124,8 +243,41 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['reports']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['reports']['Insert']>
+        Insert: {
+          id?: string
+          agency_id: string
+          client_id: string
+          template_id?: string | null
+          title: string
+          description?: string | null
+          status?: ReportStatus
+          date_from: string
+          date_to: string
+          config?: Json
+          public_url?: string | null
+          public_token?: string | null
+          sent_at?: string | null
+          sent_to?: string[] | null
+          opened_at?: string | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          title?: string
+          description?: string | null
+          status?: ReportStatus
+          date_from?: string
+          date_to?: string
+          config?: Json
+          public_url?: string | null
+          public_token?: string | null
+          sent_at?: string | null
+          sent_to?: string[] | null
+          opened_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       report_widgets: {
         Row: {
@@ -141,8 +293,29 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['report_widgets']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['report_widgets']['Insert']>
+        Insert: {
+          id?: string
+          report_id: string
+          widget_type: WidgetType
+          title?: string | null
+          position_order?: number
+          grid_col_span?: number
+          config?: Json
+          cached_data?: Json | null
+          cached_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          title?: string | null
+          position_order?: number
+          grid_col_span?: number
+          config?: Json
+          cached_data?: Json | null
+          cached_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       metrics_cache: {
         Row: {
@@ -167,8 +340,42 @@ export interface Database {
           country: string | null
           created_at: string
         }
-        Insert: Omit<Database['public']['Tables']['metrics_cache']['Row'], 'id' | 'created_at'>
-        Update: Partial<Database['public']['Tables']['metrics_cache']['Insert']>
+        Insert: {
+          id?: string
+          data_source_id: string
+          client_id: string
+          metric_date: string
+          impressions?: number
+          clicks?: number
+          conversions?: number
+          cost?: number
+          revenue?: number
+          ctr?: number | null
+          cpc?: number | null
+          cpa?: number | null
+          roas?: number | null
+          extra_metrics?: Json
+          campaign_name?: string | null
+          ad_group_name?: string | null
+          channel?: string | null
+          device?: string | null
+          country?: string | null
+          created_at?: string
+        }
+        Update: {
+          impressions?: number
+          clicks?: number
+          conversions?: number
+          cost?: number
+          revenue?: number
+          ctr?: number | null
+          cpc?: number | null
+          cpa?: number | null
+          roas?: number | null
+          extra_metrics?: Json
+          updated_at?: string
+        }
+        Relationships: []
       }
       report_schedules: {
         Row: {
@@ -190,8 +397,39 @@ export interface Database {
           created_at: string
           updated_at: string
         }
-        Insert: Omit<Database['public']['Tables']['report_schedules']['Row'], 'id' | 'created_at' | 'updated_at'>
-        Update: Partial<Database['public']['Tables']['report_schedules']['Insert']>
+        Insert: {
+          id?: string
+          agency_id: string
+          client_id: string
+          template_id: string
+          frequency: ScheduleFrequency
+          send_day?: number
+          send_hour?: number
+          recipients?: string[]
+          is_active?: boolean
+          include_pdf?: boolean
+          custom_subject?: string | null
+          custom_message?: string | null
+          last_sent_at?: string | null
+          next_send_at?: string | null
+          created_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          frequency?: ScheduleFrequency
+          send_day?: number
+          send_hour?: number
+          recipients?: string[]
+          is_active?: boolean
+          include_pdf?: boolean
+          custom_subject?: string | null
+          custom_message?: string | null
+          last_sent_at?: string | null
+          next_send_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
     }
     Views: Record<string, never>
@@ -215,5 +453,6 @@ export interface Database {
       schedule_frequency: ScheduleFrequency
       currency_type: CurrencyType
     }
+    CompositeTypes: Record<string, never>
   }
 }
