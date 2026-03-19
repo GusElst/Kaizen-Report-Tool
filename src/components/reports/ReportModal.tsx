@@ -8,7 +8,7 @@ import type { ReportStatus } from '@/types/database'
 
 interface ClientOption {
   id: string
-  name: string
+  title: string
 }
 
 interface ReportModalProps {
@@ -19,7 +19,7 @@ interface ReportModalProps {
 }
 
 interface FormState {
-  name: string
+  title: string
   client_id: string
   date_from: string
   date_to: string
@@ -31,7 +31,7 @@ const firstOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).toISOStr
 const todayStr = today.toISOString().split('T')[0]
 
 const EMPTY_FORM: FormState = {
-  name: '',
+  title: '',
   client_id: '',
   date_from: firstOfMonth,
   date_to: todayStr,
@@ -56,7 +56,7 @@ export const ReportModal = ({ open, onClose, onSubmit, report }: ReportModalProp
   useEffect(() => {
     if (report) {
       setForm({
-        name: report.name,
+        title: report.title,
         client_id: report.client_id,
         date_from: report.date_from,
         date_to: report.date_to,
@@ -73,7 +73,7 @@ export const ReportModal = ({ open, onClose, onSubmit, report }: ReportModalProp
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!form.name.trim()) return setError('El nombre es requerido')
+    if (!form.title.trim()) return setError('El nombre es requerido')
     if (!form.client_id) return setError('Seleccioná un cliente')
     if (!form.date_from || !form.date_to) return setError('Completá el rango de fechas')
     if (form.date_from > form.date_to) return setError('La fecha de inicio debe ser anterior a la de fin')
@@ -112,8 +112,8 @@ export const ReportModal = ({ open, onClose, onSubmit, report }: ReportModalProp
               </label>
               <input
                 type="text"
-                value={form.name}
-                onChange={(e) => set('name', e.target.value)}
+                value={form.title}
+                onChange={(e) => set('title', e.target.value)}
                 placeholder="Ej: Reporte Marzo 2026"
                 className="w-full rounded-lg border border-white/10 bg-surface-300 px-3 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all font-body"
               />
