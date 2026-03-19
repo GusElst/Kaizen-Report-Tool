@@ -1,0 +1,138 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { createClient } from '@/lib/supabase/client'
+import { Eye, EyeOff, Loader2 } from 'lucide-react'
+
+const KaizenLogo = () => (
+  <svg width="48" height="40" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polygon points="5,72 32,20 58,72" fill="#27333d" />
+    <polygon points="42,72 68,28 95,72" fill="#27333d" />
+    <polygon points="50,10 62,35 38,35" fill="#f26c09" />
+    <circle cx="50" cy="10" r="2.5" fill="white" opacity="0.8" />
+    <circle cx="32" cy="20" r="2" fill="white" opacity="0.6" />
+    <circle cx="68" cy="28" r="2" fill="white" opacity="0.6" />
+    <line x1="50" y1="10" x2="32" y2="20" stroke="white" strokeWidth="1" opacity="0.4" />
+    <line x1="50" y1="10" x2="68" y2="28" stroke="white" strokeWidth="1" opacity="0.4" />
+    <line x1="32" y1="20" x2="68" y2="28" stroke="white" strokeWidth="1" opacity="0.3" />
+  </svg>
+)
+
+export default function RegisterPage() {
+  const router = useRouter()
+  const [form, setForm] = useState({ fullName: '', agencyName: '', email: '', password: '' })
+  const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((prev) => ({ ...prev, [field]: e.target.value }))
+
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (form.password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres')
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    // 1. Crear usuario + agencia vía API server-side
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) {
+      setError(data.error ?? 'Error al registrarse')
+      setLoading(false)
+      return
+    }
+
+    // 2. Login automático con las credenciales recién creadas
+    const supabase = createClient()!
+    const { error: loginError } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    })
+
+    if (loginError) {
+      setError('Cuenta creada. Por favor ingresá con tu email y contraseña.')
+      setLoading(false)
+      router.push('/login')
+      return
+    }
+
+    router.push('/')
+    router.refresh()
+  }
+
+  return (
+    <div className="w-full max-w-sm">
+      <div className="mb-8 text-center">
+        <div className="flex justify-center mb-4"><KaizenLogo /></div>
+        <h1 className="font-heading text-2xl font-bold text-white tracking-wide">KAIZEN</h1>
+        <p className="font-body text-xs text-white/40 mt-1 tracking-widest uppercase">Report Tool</p>
+      </div>
+
+      <div className="rounded-2xl border border-white/10 bg-surface-100 p-8">
+        <h2 className="font-heading text-lg font-bold text-white mb-1">Crear agencia</h2>
+        <p className="font-body text-sm text-white/40 mb-6">Configurá tu cuenta en menos de un minuto</p>
+
+        <form onSubmit={handleRegister} className="space-y-4">
+          <div>
+            <label className="font-body text-xs font-medium text-white/60 block mb-1.5">Tu nombre</label>
+            <input type="text" value={form.fullName} onChange={set('fullName')} placeholder="Gustavo López" required
+              className="w-full rounded-lg border border-white/10 bg-surface-200 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all font-body" />
+          </div>
+
+          <div>
+            <label className="font-body text-xs font-medium text-white/60 block mb-1.5">Nombre de la agencia</label>
+            <input type="text" value={form.agencyName} onChange={set('agencyName')} placeholder="Kaizen Digital" required
+              className="w-full rounded-lg border border-white/10 bg-surface-200 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all font-body" />
+          </div>
+
+          <div>
+            <label className="font-body text-xs font-medium text-white/60 block mb-1.5">Email</label>
+            <input type="email" value={form.email} onChange={set('email')} placeholder="tu@agencia.com" required
+              className="w-full rounded-lg border border-white/10 bg-surface-200 px-4 py-2.5 text-sm text-white placeholder:text-white/20 outline-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all font-body" />
+          </div>
+
+          <div>
+            <label className="font-body text-xs font-medium text-white/60 block mb-1.5">Contraseña</label>
+            <div className="relative">
+              <input type={showPassword ? 'text' : 'password'} value={form.password} onChange={set('password')} placeholder="Mínimo 6 caracteres" required
+                className="w-full rounded-lg border border-white/10 bg-surface-200 px-4 py-2.5 pr-10 text-sm text-white placeholder:text-white/20 outline-none focus:border-brand-500/50 focus:ring-1 focus:ring-brand-500/20 transition-all font-body" />
+              <button type="button" onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors">
+                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              </button>
+            </div>
+          </div>
+
+          {error && (
+            <div className="rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3">
+              <p className="font-body text-xs text-red-400">{error}</p>
+            </div>
+          )}
+
+          <button type="submit" disabled={loading}
+            className="w-full rounded-lg bg-brand-500 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 font-heading mt-2">
+            {loading ? <><Loader2 className="h-4 w-4 animate-spin" /> Creando cuenta...</> : 'Crear agencia'}
+          </button>
+        </form>
+      </div>
+
+      <p className="font-body text-center text-xs text-white/30 mt-6">
+        ¿Ya tenés cuenta?{' '}
+        <Link href="/login" className="text-brand-500 hover:text-brand-400 transition-colors">Ingresar</Link>
+      </p>
+    </div>
+  )
+}
