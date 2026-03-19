@@ -8,7 +8,7 @@ import type { ReportStatus } from '@/types/database'
 
 interface ClientOption {
   id: string
-  title: string
+  name: string
 }
 
 interface ReportModalProps {
