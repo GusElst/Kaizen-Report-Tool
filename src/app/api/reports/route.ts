@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       date_from,
       date_to,
       status: status ?? 'draft',
+      config: body.config ?? {},
       created_by: user.id,
     })
     .select('*, clients(name)')

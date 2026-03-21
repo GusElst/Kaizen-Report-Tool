@@ -67,9 +67,9 @@ export default function ReportsPage() {
 
       {/* Estados */}
       {loading ? (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-44 rounded-xl bg-surface-200 animate-pulse" />
+        <div className="space-y-2">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="h-16 rounded-lg bg-surface-200 animate-pulse" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
@@ -96,7 +96,7 @@ export default function ReportsPage() {
           <p className="font-body text-xs text-white/30">
             {filtered.length} reporte{filtered.length !== 1 ? 's' : ''}
           </p>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="space-y-2">
             {filtered.map((report) => (
               <ReportCard
                 key={report.id}
