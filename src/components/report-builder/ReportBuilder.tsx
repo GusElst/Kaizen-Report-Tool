@@ -77,14 +77,14 @@ const ReportBuilder = ({ initialState, onSave, saving: externalSaving }: ReportB
       </div>
 
       {/* Toolbar superior */}
-      <div className="h-14 bg-surface-50 border-b border-surface-100 hidden lg:flex items-center justify-between px-5 flex-shrink-0">
+      <div className="h-14 bg-surface-100 border-b border-surface-200 hidden lg:flex items-center justify-between px-5 flex-shrink-0">
         <div className="flex items-center gap-4">
           <input
             type="text"
             value={state.title}
             onChange={(e) => dispatch({ type: 'SET_REPORT_META', payload: { title: e.target.value } })}
             placeholder="Título del reporte..."
-            className="bg-surface px-3 py-1.5 rounded-lg text-white font-heading font-semibold text-sm outline-none placeholder:text-surface-400 w-60 border border-surface-100 focus:border-brand/50 transition-colors"
+            className="bg-surface px-3 py-1.5 rounded-lg text-white font-heading font-semibold text-sm outline-none placeholder:text-surface-300 w-60 border border-surface-200 focus:border-brand/50 transition-colors"
           />
 
           {/* Separator */}
