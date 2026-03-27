@@ -80,7 +80,7 @@ export default function ClientsPage() {
           {search ? (
             <>
               <p className="font-heading text-sm font-semibold text-white/40">Sin resultados</p>
-              <p className="font-body text-xs text-white/25 mt-1">No encontramos clientes con &quot;{search}&quot;</p>
+              <p className="font-body text-xs text-white/25 mt-1">No encontramos clientes con &ldquo;{search}&rdquo;</p>
             </>
           ) : (
             <>
