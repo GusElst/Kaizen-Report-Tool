@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment } from 'react'
+import { useState, useRef, useEffect, Fragment } from 'react'
 import type { ReportSection, ReportBuilderAction, WidgetConfig } from '@/types/reports'
 import SectionHeader from './SectionHeader'
 import WidgetRenderer from './WidgetRenderer'
@@ -26,6 +26,15 @@ const COL_SPAN_MAP = {
 const ReportCanvas = ({ section, activeWidgetId, dispatch, onAddWidget }: ReportCanvasProps) => {
   const [paletteAfterWidgetId, setPaletteAfterWidgetId] = useState<string | null>(null)
   const [showBottomPalette, setShowBottomPalette] = useState(false)
+  const bottomPaletteRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+
+  // Scroll automático cuando se abre la palette del fondo
+  useEffect(() => {
+    if (showBottomPalette && bottomPaletteRef.current) {
+      bottomPaletteRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
+    }
+  }, [showBottomPalette])
 
   if (!section) {
     return (
@@ -46,7 +55,7 @@ const ReportCanvas = ({ section, activeWidgetId, dispatch, onAddWidget }: Report
   }
 
   return (
-    <div className="flex-1 overflow-y-auto bg-surface p-6 min-w-0">
+    <div ref={scrollContainerRef} className="flex-1 overflow-y-auto bg-surface p-6 min-w-0">
       <div className="max-w-5xl mx-auto">
         {/* Header de sección */}
         <SectionHeader
@@ -156,7 +165,7 @@ const ReportCanvas = ({ section, activeWidgetId, dispatch, onAddWidget }: Report
 
                 {/* Palette como item separado del grid — full width */}
                 {paletteAfterWidgetId === widget.id && (
-                  <div className="col-span-4 py-2">
+                  <div className="col-span-4 py-2" ref={(el) => { if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }) }}>
                     <WidgetPalette
                       onSelect={(type) => handleInsertWidget(type, widget.id)}
                       onClose={() => setPaletteAfterWidgetId(null)}
@@ -182,7 +191,7 @@ const ReportCanvas = ({ section, activeWidgetId, dispatch, onAddWidget }: Report
           </button>
 
           {showBottomPalette && (
-            <div className="mt-3">
+            <div ref={bottomPaletteRef} className="mt-3 pb-4">
               <WidgetPalette
                 onSelect={(type) => handleInsertWidget(type)}
                 onClose={() => setShowBottomPalette(false)}
